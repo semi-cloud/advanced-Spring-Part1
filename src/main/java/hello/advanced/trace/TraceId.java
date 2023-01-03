@@ -25,7 +25,7 @@ public class TraceId {
     }
 
     public TraceId createPreviousId() {
-        return new TraceId(id, level - 1);
+        return new TraceId(id, level - 1);  // ID는 같고 깊이만 감소
     }
 
     public boolean isFirstLevel() {
