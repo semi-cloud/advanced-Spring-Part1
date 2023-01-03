@@ -13,7 +13,10 @@ public class HelloTraceV1 {
     private static final String COMPLETE_PREFIX = "<--";
     private static final String EX_PREFIX = "<X-";
 
-    public TraceStatus begin(String message) {  // 로그 시작
+    /**
+     * 로그 시작
+     */
+    public TraceStatus begin(String message) {
         TraceId traceId = new TraceId();
         long startTimeMs = System.currentTimeMillis();
         log.info("[{}] {}{}", traceId.getId(), addSpace(START_PREFIX,
@@ -21,11 +24,17 @@ public class HelloTraceV1 {
         return new TraceStatus(traceId, startTimeMs, message);
     }
 
-    public void end(TraceStatus status) {  // 정상 로그 종료
+    /**
+     * 정상 로그 종료
+     */
+    public void end(TraceStatus status) {
         complete(status, null);
     }
 
-    public void exception(TraceStatus status, Exception e) {  // 예외 로그 종료
+    /**
+     * 예외 로그 종료
+     */
+    public void exception(TraceStatus status, Exception e) {
         complete(status, e);
     }
 

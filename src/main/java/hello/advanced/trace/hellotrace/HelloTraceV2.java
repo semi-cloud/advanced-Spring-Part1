@@ -13,25 +13,36 @@ public class HelloTraceV2 {
     private static final String COMPLETE_PREFIX = "<--";
     private static final String EX_PREFIX = "<X-";
 
-    public TraceStatus begin(String message) {  // 로그 시작
+    /**
+     * 처음 상태에서의 로그 시작
+     */
+    public TraceStatus begin(String message) {
         TraceId traceId = new TraceId();
         long startTimeMs = System.currentTimeMillis();
         log.info("[{}] {}{}", traceId.getId(), addSpace(START_PREFIX, traceId.getLevel()), message);
         return new TraceStatus(traceId, startTimeMs, message);
     }
 
-    // V2에서 추가
+    /**
+     * 처음이 아닌 상태에서의 로그 시작
+     */
     public TraceStatus beginSync(TraceId beforeTraceId, String message) {
-        TraceId nextId = beforeTraceId.createNextId();   // 기존 트랜잭션 ID는 유지, 깊이만 증가
+        TraceId nextId = beforeTraceId.createNextId();   // 기존 트랜잭션 ID는 유지하면서 깊이만 증가시킴
         long startTimeMs = System.currentTimeMillis();
         log.info("[{}] {}{}", nextId.getId(), addSpace(START_PREFIX, nextId.getLevel()), message);
         return new TraceStatus(nextId, startTimeMs, message);
     }
 
+    /**
+     * 정상 로그 종료
+     */
     public void end(TraceStatus status) {  // 정상 로그 종료
         complete(status, null);
     }
 
+    /**
+     * 예외 로그 종료
+     */
     public void exception(TraceStatus status, Exception e) {  // 예외 로그 종료
         complete(status, e);
     }
