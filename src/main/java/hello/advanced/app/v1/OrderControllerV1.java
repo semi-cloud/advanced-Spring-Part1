@@ -6,6 +6,11 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+/**
+ * 버전 1의 문제점
+ * 1. 메서드 호출의 깊이를 표현 불가능하다(레벨).
+ * 2. HTTP 요청 단위로 특정 ID를 남겨, 어떤 HTTP 요청에서 시작된 트랜잭션인지 알 수 있어야 하는데 불가능하다.
+ */
 @RestController
 @RequiredArgsConstructor
 public class OrderControllerV1 {
@@ -13,11 +18,6 @@ public class OrderControllerV1 {
     private final OrderServiceV1 orderService;
     private final HelloTraceV1 trace;
 
-    /**
-     * 버전 1의 문제점
-     * 1. 메서드 호출의 깊이를 표현 불가능하다(레벨).
-     * 2. HTTP 요청 단위로 특정 ID를 남겨, 어떤 HTTP 요청에서 시작된 트랜잭션인지 알 수 있어야 하는데 불가능하다.
-     */
     @GetMapping("/v1/request")
     public String request(String itemId) {
 
